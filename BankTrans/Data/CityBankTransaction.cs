@@ -1,7 +1,10 @@
-﻿namespace BankTrans.Data
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace BankTrans.Data
 {
     public class CityBankTransaction
     {
+        [Key]
         public int Id { get; set; }
         public decimal Amount { get; set; }
         public string? CurrencyName { get; set; }
