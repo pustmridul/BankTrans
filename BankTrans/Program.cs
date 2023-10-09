@@ -4,6 +4,8 @@ using BankTrans.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
+using Serilog.Events;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -40,6 +42,15 @@ builder.Services.AddCors(options =>
 builder.Services.AddTransient<ITokenService, TokenService>();
 builder.Services.AddTransient<ITransService, TransService>();
 
+Log.Logger = new LoggerConfiguration()
+       .MinimumLevel.Debug()
+       .WriteTo.Logger(c => c.Filter.ByIncludingOnly(e => e.Level == LogEventLevel.Debug)
+       .WriteTo.File($"D:/Logs/serilog/DEBUG.log", rollingInterval: RollingInterval.Year))
+       .WriteTo.Logger(c => c.Filter.ByIncludingOnly(e => e.Level == LogEventLevel.Information)
+       .WriteTo.File($"D:/Logs/serilog/Info.log", rollingInterval: RollingInterval.Year))
+       .WriteTo.Logger(c => c.Filter.ByIncludingOnly(e => e.Level == LogEventLevel.Error)
+       .WriteTo.File($"D:/Logs/serilog/ERROR.log", rollingInterval: RollingInterval.Year))
+       .CreateLogger();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

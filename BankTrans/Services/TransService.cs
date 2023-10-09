@@ -1,4 +1,5 @@
 ﻿using BankTrans.Data;
+using Serilog;
 
 namespace BankTrans.Services
 {
@@ -19,9 +20,17 @@ namespace BankTrans.Services
             obj = model;
 
             _context.Add(obj);
-            await   _context.SaveChangesAsync();
-            return await _context.SaveChangesAsync()>0 ? true : false;
-
+            try
+            {
+                Log.Information("Save Success");
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Fail:" + ex.Message);
+                return false;
+            }
         }
     }
 }
