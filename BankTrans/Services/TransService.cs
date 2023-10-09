@@ -1,4 +1,5 @@
 ﻿using BankTrans.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace BankTrans.Services
 {
@@ -19,9 +20,15 @@ namespace BankTrans.Services
             obj = model;
 
             _context.Add(obj);
-            await   _context.SaveChangesAsync();
-            return await _context.SaveChangesAsync()>0 ? true : false;
+            
+            var isAdded = await _context.SaveChangesAsync();
+            return isAdded>0;
+        }
 
+        public async Task<ICollection<CityBankTransaction>> GetAll()
+        {
+            
+            return await _context.CityBankTransactions.ToListAsync();
         }
     }
 }

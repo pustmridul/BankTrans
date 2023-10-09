@@ -17,9 +17,19 @@ namespace BankTrans.Controllers
         [HttpPost]
         public async Task<IActionResult> SaveTransData(CityBankTransaction model)
         {
-            var result = _transService.SaveTransData(model);
+            var result = await _transService.SaveTransData(model);
 
             return Ok(result);
         }
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var result = await _transService.GetAll();
+
+            return Ok(result);
+        }
+
+
+     
     }
 }
