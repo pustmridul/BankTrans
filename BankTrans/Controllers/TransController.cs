@@ -24,7 +24,7 @@ namespace BankTrans.Controllers
             _mapper = mapper;
         }
         [HttpPost]
-
+        [Authorize]
         public async Task<IActionResult> SaveTransData(CityBankTransactionCreateDto model)
         {
             CityBankTransaction cityBankTransaction = new CityBankTransaction();
