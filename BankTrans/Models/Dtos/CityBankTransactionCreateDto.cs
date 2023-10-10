@@ -1,10 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace BankTrans.Data
+﻿namespace BankTrans.Models.Dtos
 {
-    public class CityBankTransaction
+    public class CityBankTransactionCreateDto
     {
-        [Key]
         public int Id { get; set; }
         public decimal Amount { get; set; }
         public string? CurrencyName { get; set; }
@@ -21,7 +18,5 @@ namespace BankTrans.Data
         public bool? IsSetteledInvoice { get; set; }
         public string? POSInvoiceNo { get; set; }
         public string? RRNNumber { get; set; }
-        public DateTime? CreatedDate { get; set; }
-
     }
 }

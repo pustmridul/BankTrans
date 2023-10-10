@@ -1,4 +1,6 @@
-﻿using BankTrans.Data;
+﻿using AutoMapper;
+using BankTrans.Data;
+using BankTrans.Models.Dtos;
 using BankTrans.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -14,16 +16,21 @@ namespace BankTrans.Controllers
     {
         private readonly ITransService _transService;
         private readonly ITokenService _tokenService;
-        public TransController(ITransService transService, ITokenService tokenService)
+        private readonly IMapper _mapper;
+        public TransController(ITransService transService, ITokenService tokenService,IMapper mapper)
         {
             _transService = transService;
             _tokenService = tokenService;
+            _mapper = mapper;
         }
         [HttpPost]
-        [Authorize]
-        public async Task<IActionResult> SaveTransData(CityBankTransaction model)
+
+        public async Task<IActionResult> SaveTransData(CityBankTransactionCreateDto model)
         {
-            var result = await _transService.SaveTransData(model);
+            CityBankTransaction cityBankTransaction = new CityBankTransaction();
+            _mapper.Map(model, cityBankTransaction);
+            cityBankTransaction.CreatedDate = DateTime.Now;
+            var result = await _transService.SaveTransData(cityBankTransaction);
 
             return Ok(result);
         }

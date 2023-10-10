@@ -1,3 +1,4 @@
+using BankTrans.Common;
 using BankTrans.Data;
 using BankTrans.Models;
 using BankTrans.Services;
@@ -106,6 +107,7 @@ Log.Logger = new LoggerConfiguration()
        .CreateLogger();
 
 builder.Services.AddControllers();
+builder.Services.AddAutoMapper(typeof(AutomapperProfile).Assembly); 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
